@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+    date format:September 30, 2009
+*@
+@{
+}
+@model GameTracker2.ViewModels.ReleaseDetailsViewModel
+
+@if (Model != null)
+{
+    @*The form is outside the table for the table heading to work*@
+    <form asp-controller="Search" asp-action="AddGame" method="post">
+        <div class="table">
+            <div class="thead">
+                <div class="tr">
+                    <div class="td">Release Date</div>
+                    <div class="td">Platform</div>
+                    <div class="td">Region</div>
+                </div>
+            </div>
+            @foreach (var d in Model.ViewDateDetails)
+            {
+                <div class="tr">
+                    <div class="td"><input type="radio" name="date" value="@d.ReleaseDetailDate" />@d.ReleaseDetailDate</div>
+                    <div class="td">@d.ReleaseDetailPlatoform</div>
+                    <div class="td">@d.ReleaseDetailRegion</div>
+                </div>
+            }
+            <input type="hidden" name="gameid" value="@Model.GameID" />
+            <input type="hidden" name="platformid" value="@Model.PlatformID" />
+            <input type="submit" value="Select Date" />
+
+
+        </div>
+    </form>
+}

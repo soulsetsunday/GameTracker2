@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model List<GameTracker2.Models.Day>
+
+@if (Model != null)
+    {
+        foreach (var d in Model)
+        { 
+            <p>Date: @d.CalendarDate</p>
+        foreach (var g in d.GamesPlayed)
+        {
+            <p>Name: @g.Name</p>
+            <p>Days played: @g.DaysPlayed</p>
+            <p>Most recently added: @g.MostRecentlyAdded</p>
+
+        }
+    }
+
+}

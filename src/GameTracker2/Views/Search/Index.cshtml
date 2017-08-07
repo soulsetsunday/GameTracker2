@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+
+    Ideally this will have a searchbox, calendar, maybe list of games/second calendar on side
+    Model will likely be list of games
+    look into partial views?
+    Search index
+*@
+@{
+}
+@*
+@model GameTracker2.ViewModels.GameViewModelWrapper
+
+@model List<GameTracker2.Models.Result>
+*@
+@model IList<GameTracker2.Models.Game>
+<p>Adding games to @ViewBag.date.ToString("MMMM dd, yyyy"):</p>
+
+<h2>Search for new games:</h2>
+<form asp-controller="Search" asp-action="Results" method="post">
+    <input type="text" name="searchstring">
+    <input type="submit" value="Search" />
+</form>
+<h2>Recent games: <a asp-controller="Search" asp-action="AllGames">click here for all games</a> </h2>
+@if (Model != null)
+{
+    <form asp-controller="Search" asp-action="AddRecentGame" method="post">
+        <div class="table">
+            <div class="thead">
+                <div class="tr">
+                    <div class="td"></div>
+                    <div class="td">Name</div>
+                    <div class="td">Release Date</div>
+                    <div class="td">Platform</div>
+                    <div class="td">Last Added</div>
+                    <div class="td"></div>
+                </div>
+            </div>
+
+                    @foreach (var g in Model)
+                {
+
+                        <div class="tr">
+                            <div class="td"><input type="radio" name="gameid" value="@g.ID" /> </div>
+                            <div class="td">@g.Name </div>
+                            <div class="td">@g.Original_release_date.ToString("MMMM dd, yyyy") </div>
+                            <div class="td">@g.Platform.Name </div>
+                            <div class="td">@g.MostRecentlyAdded.ToString("MM/dd/yy") </div>
+                    <div class="td"><img src="@g.GameImages.Icon_url"></div>
+                </div>
+                    }
+                </div>
+                <input type="submit" value="Add Recent Game" />
+</form>
+        }

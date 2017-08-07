@@ -200,7 +200,6 @@ namespace GameTracker2.Controllers
                 }
             }
 
-
             IList<Game> games = context.Games.Where(u => u.User == GetCurrentUserAsync().Result).Include(i => i.GameImages).Include(p => p.Platform).OrderByDescending(x => x.MostRecentlyAdded).ToList();
 
             String thisMonth = currentWorkingDate.ToString("MM-yyyy");

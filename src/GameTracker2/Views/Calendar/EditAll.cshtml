@@ -1,0 +1,53 @@
+﻿@*
+This always recieves a datetime(today if nothing else), hence the model
+*@
+@{
+}
+@model DateTime
+@using GameTracker2.ViewModels
+
+<div class="month">
+    <ul>
+        <li class="prev"><a asp-controller="Calendar" asp-action="EditAll" asp-route-id="@Model.AddMonths(-1).ToString("MM-dd-yyyy")">&#10094;</a></li>
+        @if (Model.Month == DateTime.Today.Month)
+        {
+            <li class="next">&#10095;</li>
+        }
+        else
+        {
+            <li class="next"><a asp-controller="Calendar" asp-action="EditAll" asp-route-id="@Model.AddMonths(1).ToString("MM-dd-yyyy")">&#10095;</a></li>
+        }
+        <li>
+            @Model.ToString("MMMM")<br>
+            <span style="font-size:18px">@Model.ToString("yyyy")</span>
+        </li>
+    </ul>
+</div>
+
+<ul class="weekdays">
+    <li>Su</li>
+    <li>Mo</li>
+    <li>Tu</li>
+    <li>We</li>
+    <li>Th</li>
+    <li>Fr</li>
+    <li>Sa</li>
+
+</ul>
+
+<ul class="days">
+
+    @foreach (int date in ViewCalendar.GenCalendar(Model))
+    {
+        @if (date == 0)
+        {
+            <li></li>
+        }
+        else
+        {
+
+                <li><span class="all"><a asp-controller="Search" asp-action="Index" asp-route-id="@Model.ToString("MM")-@date.ToString("D2")-@Model.ToString("yyyy")">@date</a></span></li>
+
+        }
+    }
+</ul>

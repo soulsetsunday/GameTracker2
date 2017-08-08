@@ -47,13 +47,18 @@ namespace GameTracker2.Controllers
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         [HttpGet]
-        public IActionResult Index(string id)
+        public IActionResult Index(string id = "0")
         {
-            DateTime calendarDate = DateTime.Today;
-            DateTime.TryParseExact(id, "MM-dd-yyyy", DateTimeFormatInfo.CurrentInfo, DateTimeStyles.None, out calendarDate);
+            DateTime calendarDate;
+            if (!DateTime.TryParseExact(id, "MM-dd-yyyy", DateTimeFormatInfo.CurrentInfo, DateTimeStyles.None, out calendarDate))
+            {
+                calendarDate = DateTime.Today;
+            }
             //if id can't be parsed, use today
+
             ViewBag.date = calendarDate;
             currentWorkingDate = calendarDate;
+
 
             IList<Game> games = context.Games.Where(u => u.User == GetCurrentUserAsync().Result).Include(c => c.Platform).Include(i => i.GameImages).OrderByDescending(x => x.MostRecentlyAdded).Take(mostRecentlyAddedLimit).ToList();
             return View(games);

@@ -36,7 +36,16 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Calendar</a></li>
                     <li><a asp-area="" asp-controller="Search" asp-action="Index">Search</a></li>
-                    <li><a asp-area="" asp-controller="Chart" asp-action="Index">Charts</a></li>
+                    @*<li><a asp-area="" asp-controller="Chart" asp-action="Index">Charts</a></li>*@
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" asp-area="" asp-controller="Chart" asp-action="Index" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Charts</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a asp-controller="Chart" asp-action="Index">Chart Home</a></li>
+                            <li><a asp-controller="Chart" asp-action="AllMonths">Monthly Charts</a></li>
+                            <li><a asp-controller="Chart" asp-action="AllYears">Yearly Charts</a></li>
+                            <li><a asp-controller="Chart" asp-action="Goty">Games released this year</a></li>
+                        </ul>
+                    </li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")

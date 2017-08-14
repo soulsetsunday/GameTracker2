@@ -74,13 +74,23 @@ body {font-family: Verdana, sans-serif;}
 }
 
 .all {
-    background: #000000;
+    /*background: #000000;
+    color: red !important;
+        */
 }
 
 .days a:link{
     color:white;
 }
 
+.all a:link{
+    color:blue;
+}
+
 .days a:visited {
     color: lightgrey;
+}
+
+.all a:visited{
+    color:darkmagenta;
 }

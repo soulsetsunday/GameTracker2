@@ -2,8 +2,7 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
     Ideally this will have a searchbox, calendar, maybe list of games/second calendar on side
-    Model will likely be list of games
-    look into partial views?
+
     Search index
 *@
 @{
@@ -21,7 +20,7 @@
     <input type="text" name="searchstring">
     <input type="submit" value="Search" />
 </form>
-<h2>Recent games: <a asp-controller="Search" asp-action="AllGames">click here for all games</a> </h2>
+<h2>Recent games: <a asp-controller="Search" asp-action="AllGames">click here for all games you've added</a> </h2>
 @if (Model != null)
 {
     <form asp-controller="Search" asp-action="AddRecentGame" method="post">

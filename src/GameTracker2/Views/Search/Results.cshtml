@@ -59,7 +59,11 @@
                                     }
                                 </select>
                             </div>
+                            @*Some games have no images, hopefully none have an image but no icon*@
+                            @if (g.Image != null)
+                            { 
                             <div class="td"><img src="@g.Image.Icon_url"></div>
+                            }
                         </div>
                     }
                 }

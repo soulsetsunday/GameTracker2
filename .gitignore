@@ -241,3 +241,10 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /src/GameTracker2/Data/apikey(tellgittoignore).txt.txt
+/src/GameTracker2/Properties/PublishProfiles/Azure.pubxml
+/src/GameTracker2/appsettings.production.json
+/src/GameTracker2/Properties/PublishProfiles/Default Settings.pubxml
+/src/GameTracker2/Properties/PublishProfiles/Default Settings-publish.ps1
+/src/GameTracker2/Properties/PublishProfiles/GameTracker220170821122921 - Web Deploy.pubxml
+/src/GameTracker2/Properties/PublishProfiles/GameTracker220170821122921 - Web Deploy-publish.ps1
+/src/GameTracker2/Properties/PublishProfiles/publish-module.psm1

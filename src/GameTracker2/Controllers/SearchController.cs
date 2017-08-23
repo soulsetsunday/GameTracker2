@@ -15,6 +15,7 @@ using System.Globalization;
 using HtmlAgilityPack;
 using GameTracker2.Classes;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,14 +27,16 @@ namespace GameTracker2.Controllers
         private GameDbContext context;
         private static readonly HttpClient HttpClient = new HttpClient();
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public SearchController(GameDbContext dbContext, UserManager<ApplicationUser> userManager)
+        public SearchController(GameDbContext dbContext, UserManager<ApplicationUser> userManager, IHostingEnvironment hostingEnvironment)
         {
             context = dbContext;
             _userManager = userManager;
+            _hostingEnvironment = hostingEnvironment;
         }
 
-        private const string apiFileLocation = "/Data/apikey.txt";
+        private const string apiFileLocation = "/data/apikey.txt";
         private string privateapikey = LoadAPI();
         public const int mostRecentlyAddedLimit = 5;
         public static RootObject searchResults = new RootObject();

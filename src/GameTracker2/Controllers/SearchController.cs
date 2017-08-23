@@ -36,8 +36,8 @@ namespace GameTracker2.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
+        //for simplicity, this is under wwwroot
         private const string apiFileLocation = "/data/apikey.txt";
-        private string privateapikey = LoadAPI();
         public const int mostRecentlyAddedLimit = 5;
         public static RootObject searchResults = new RootObject();
         //static to pass around controller, list of results from rootobject, this is still in use
@@ -282,28 +282,27 @@ namespace GameTracker2.Controllers
             return;
         }
 
-        
+
 
         private async Task<String> SendSearchRequest(string searchstring, int page)
-            //this assumes page will always be sent
+        //this assumes page will always be sent
         {
-            string url = $@"http://www.giantbomb.com/api/search/?api_key={privateapikey}&format=json&page={page}&query='{searchstring}'&resources=game";
+            string myKey = LoadAPI();
+
+            string url = $@"http://www.giantbomb.com/api/search/?api_key={myKey}&format=json&page={page}&query='{searchstring}'&resources=game";
             //per documentation, use one static httpclient per app
             HttpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "Game tracking demo thing");
             //giantbomb requires a user-agent
             var response = await HttpClient.GetAsync(url);
             var result = await response.Content.ReadAsStringAsync();
-            //ViewBag.Urltest = url;
 
             return result;
         }
 
-
-
-        //the file locations here will be an issue
-        static string LoadAPI()
+        string LoadAPI()
         {
-            using (StreamReader r = System.IO.File.OpenText(apiFileLocation))
+            string keyPath = _hostingEnvironment.WebRootPath + apiFileLocation;
+            using (StreamReader r = System.IO.File.OpenText(keyPath))
             {
                 string api = r.ReadToEnd();
                 return api;

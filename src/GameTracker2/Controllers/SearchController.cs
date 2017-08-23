@@ -308,24 +308,5 @@ namespace GameTracker2.Controllers
                 return api;
             }
         }
-
-        //loads test json files to parse
-        public RootObject LoadJson()
-        {
-            using (StreamReader r = System.IO.File.OpenText("/Data/eternal.json"))
-            {
-                string json = r.ReadToEnd();
-                RootObject items = JsonConvert.DeserializeObject<RootObject>(json);
-                return items;
-            }
-        }
-
-        //this is a debugging thing, remove
-        public void TestJson()
-        {
-            RootObject test = LoadJson();
-            return;
-
-        }
     } 
 }

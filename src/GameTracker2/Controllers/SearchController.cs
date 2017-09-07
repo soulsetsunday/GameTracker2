@@ -80,48 +80,13 @@ namespace GameTracker2.Controllers
             //if an invalid date is passed, hopefully it's a url(!); if so, append releases/ to it 
             //and scrape the page
 
-            var html = date + "releases/";
-            HtmlWeb web = new HtmlWeb();
-            var htmlDoc = web.Load(html);
+            List<ViewDateDetail> detail = ScrapePage(date);
 
-            List<string> pageValues = new List<string>() { "name", "platform", "region", "releaseDate" };
-            List<string> releaseDates = new List<string>();
-            //List<string> justDates = new List<string>();
-            List<ViewDateDetail> detail = new List<ViewDateDetail>();
-
-            var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//tbody/tr/td");
-
-            foreach (var node in htmlNodes)
-            {
-                if (node.Attributes.Count > 0 && pageValues.Contains(node.Attributes["data-field"].Value))
-                {
-                    releaseDates.Add(node.Attributes["data-field"].Value.Trim());
-                    releaseDates.Add(node.InnerText.Trim());
-                }
-
-            }
-
-            for (int i = 0; i < releaseDates.Count; i++)
-            {
-                if ((i + 1) % 8 == 0)
-                {
-                    //justDates.Add(releaseDates[i]);
-                    ViewDateDetail tempView = new ViewDateDetail();
-
-                    tempView.ReleaseDetailDate = releaseDates[i];
-                    tempView.ReleaseDetailPlatoform = releaseDates[i - 4];
-                    tempView.ReleaseDetailRegion = releaseDates[i - 2];
-
-                    detail.Add(tempView);
-
-                }
-            }
-
+            //the ids were passed, this just adds detail and sends it
             ReleaseDetailsViewModel send = new ReleaseDetailsViewModel
             {
                 GameID = gameid,
                 PlatformID = platformid,
-                //ReleaseDates = justDates,
                 ViewDateDetails = detail,
             };
 
@@ -306,6 +271,50 @@ namespace GameTracker2.Controllers
                 string api = r.ReadToEnd();
                 return api;
             }
+        }
+
+        public List<ViewDateDetail> ScrapePage(string senturl)
+            //takes a url, scrapes it, and returns a list of date/region/platforms
+        {
+
+            var html = senturl + "releases/";
+            HtmlWeb web = new HtmlWeb();
+            var htmlDoc = web.Load(html);
+
+            List<string> pageValues = new List<string>() { "name", "platform", "region", "releaseDate" };
+            List<string> releaseDates = new List<string>();
+            List<ViewDateDetail> detail = new List<ViewDateDetail>();
+
+            var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//tbody/tr/td");
+
+            //this scrapes the pageValues and their values
+            foreach (var node in htmlNodes)
+            {
+                if (node.Attributes.Count > 0 && pageValues.Contains(node.Attributes["data-field"].Value))
+                {
+                    releaseDates.Add(node.Attributes["data-field"].Value.Trim());
+                    releaseDates.Add(node.InnerText.Trim());
+                }
+
+            }
+
+            //this takes the scraped values and adds them to detail
+            for (int i = 0; i < releaseDates.Count; i++)
+            {
+                if ((i + 1) % 8 == 0)
+                {
+                    ViewDateDetail tempView = new ViewDateDetail();
+
+                    tempView.ReleaseDetailDate = releaseDates[i];
+                    tempView.ReleaseDetailPlatoform = releaseDates[i - 4];
+                    tempView.ReleaseDetailRegion = releaseDates[i - 2];
+
+                    detail.Add(tempView);
+
+                }
+            }
+
+            return (detail);
         }
     } 
 }

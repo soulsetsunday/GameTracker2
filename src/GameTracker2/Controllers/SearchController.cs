@@ -70,6 +70,7 @@ namespace GameTracker2.Controllers
         [HttpPost]
         public IActionResult ReleaseDetails(string date, int gameid, int platformid)
         {
+            //the Results view always calls this, either to add a game or to fix a date
             //this assumes a non-parsable date is a url/all dates are valid and parsable
             DateTime dateParse = new DateTime();
             if (DateTime.TryParse(date, out dateParse))
@@ -77,7 +78,7 @@ namespace GameTracker2.Controllers
             //if a valid date is passed, send everything to AddGame
 
             //if an invalid date is passed, hopefully it's a url(!); if so, append releases/ to it 
-            // and scrape the page
+            //and scrape the page
 
             var html = date + "releases/";
             HtmlWeb web = new HtmlWeb();
@@ -131,8 +132,6 @@ namespace GameTracker2.Controllers
         public async Task<IActionResult> Results(string searchstring, int page = 1)
         {
             ViewBag.Searchstring = searchstring;
-            // Temporary thing
-            //RootObject searchResults = LoadJson();
 
             //actual loading
             string response = await SendSearchRequest(searchstring, page);

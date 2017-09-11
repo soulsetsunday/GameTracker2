@@ -312,7 +312,7 @@ namespace GameTracker2.Controllers
                 {
                     ScrapeDateDetail tempView = new ScrapeDateDetail();
 
-                    tempView.ReleaseDetailDate = releaseDates[i];
+                    tempView.ReleaseDetailDate = DateTime.ParseExact(releaseDates[i], "MMMM dd, yyyy", CultureInfo.InvariantCulture);
                     tempView.ReleaseDetailPlatoform = releaseDates[i - 4];
                     tempView.ReleaseDetailRegion = releaseDates[i - 2];
 

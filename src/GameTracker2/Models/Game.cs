@@ -88,6 +88,7 @@ namespace GameTracker2.Models
         public List<Platform> Platforms { get; set; }
         public string site_detail_url { get; set; }
         public string Resource_type { get; set; }
+        public List<ScrapeDateDetail> Dates { get; set;}
     }
 
     public class RootObject

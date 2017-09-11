@@ -80,7 +80,7 @@ namespace GameTracker2.Controllers
             //if an invalid date is passed, hopefully it's a url(!); if so, append releases/ to it 
             //and scrape the page
 
-            List<ViewDateDetail> detail = ScrapePage(date);
+            List<ScrapeDateDetail> detail = ScrapePage(date);
 
             //the ids were passed, this just adds detail and sends it
             ReleaseDetailsViewModel send = new ReleaseDetailsViewModel
@@ -97,12 +97,19 @@ namespace GameTracker2.Controllers
         public async Task<IActionResult> Results(string searchstring, int page = 1)
         {
             ViewBag.Searchstring = searchstring;
-
-            //actual loading
             string response = await SendSearchRequest(searchstring, page);
             searchResults = JsonConvert.DeserializeObject<RootObject>(response);
+            ScrapeAllResults();
 
             return View(searchResults);
+        }
+
+        public void ScrapeAllResults()
+        {
+            foreach (Result r in searchResults.Results)
+            {
+                r.Dates = ScrapePage(r.site_detail_url);
+            }
         }
 
         [HttpPost]
@@ -273,7 +280,7 @@ namespace GameTracker2.Controllers
             }
         }
 
-        public List<ViewDateDetail> ScrapePage(string senturl)
+        public List<ScrapeDateDetail> ScrapePage(string senturl)
             //takes a url, scrapes it, and returns a list of date/region/platforms
         {
 
@@ -283,7 +290,7 @@ namespace GameTracker2.Controllers
 
             List<string> pageValues = new List<string>() { "name", "platform", "region", "releaseDate" };
             List<string> releaseDates = new List<string>();
-            List<ViewDateDetail> detail = new List<ViewDateDetail>();
+            List<ScrapeDateDetail> detail = new List<ScrapeDateDetail>();
 
             var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//tbody/tr/td");
 
@@ -303,7 +310,7 @@ namespace GameTracker2.Controllers
             {
                 if ((i + 1) % 8 == 0)
                 {
-                    ViewDateDetail tempView = new ViewDateDetail();
+                    ScrapeDateDetail tempView = new ScrapeDateDetail();
 
                     tempView.ReleaseDetailDate = releaseDates[i];
                     tempView.ReleaseDetailPlatoform = releaseDates[i - 4];

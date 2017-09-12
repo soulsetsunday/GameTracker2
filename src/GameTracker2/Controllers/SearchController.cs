@@ -36,9 +36,10 @@ namespace GameTracker2.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        //for simplicity, this is under wwwroot
+        //this is under wwwroot
         private const string apiFileLocation = "/data/apikey.txt";
         public const int mostRecentlyAddedLimit = 5;
+        public String[] dateformats = { "MMMM dd, yyyy", "MMMM yyyy", "MMMM d, yyyy" };
         public static RootObject searchResults = new RootObject();
         //static to pass around controller, list of results from rootobject, this is still in use
         public static Platform tempPlatform = new Platform();
@@ -65,32 +66,6 @@ namespace GameTracker2.Controllers
 
             IList<Game> games = context.Games.Where(u => u.User == GetCurrentUserAsync().Result).Include(c => c.Platform).Include(i => i.GameImages).OrderByDescending(x => x.MostRecentlyAdded).Take(mostRecentlyAddedLimit).ToList();
             return View(games);
-        }
-
-        [HttpPost]
-        public IActionResult ReleaseDetails(string date, int gameid, int platformid)
-        {
-            //the Results view always calls this, either to add a game or to fix a date
-            //this assumes a non-parsable date is a url/all dates are valid and parsable
-            DateTime dateParse = new DateTime();
-            if (DateTime.TryParse(date, out dateParse))
-                return AddGame(gameid, platformid, date);
-            //if a valid date is passed, send everything to AddGame
-
-            //if an invalid date is passed, hopefully it's a url(!); if so, append releases/ to it 
-            //and scrape the page
-
-            List<ScrapeDateDetail> detail = ScrapePage(date);
-
-            //the ids were passed, this just adds detail and sends it
-            ReleaseDetailsViewModel send = new ReleaseDetailsViewModel
-            {
-                GameID = gameid,
-                PlatformID = platformid,
-                ViewDateDetails = detail,
-            };
-
-            return View(send);
         }
 
         [HttpPost]
@@ -295,24 +270,35 @@ namespace GameTracker2.Controllers
             var htmlNodes = htmlDoc.DocumentNode.SelectNodes("//tbody/tr/td");
 
             //this scrapes the pageValues and their values
-            foreach (var node in htmlNodes)
+            if (htmlNodes != null)
             {
-                if (node.Attributes.Count > 0 && pageValues.Contains(node.Attributes["data-field"].Value))
+                foreach (var node in htmlNodes)
                 {
-                    releaseDates.Add(node.Attributes["data-field"].Value.Trim());
-                    releaseDates.Add(node.InnerText.Trim());
+                    if (node.Attributes.Count > 0 && pageValues.Contains(node.Attributes["data-field"].Value))
+                    {
+                        releaseDates.Add(node.Attributes["data-field"].Value.Trim());
+                        releaseDates.Add(node.InnerText.Trim());
+                    }
+
                 }
-
             }
-
             //this takes the scraped values and adds them to detail
             for (int i = 0; i < releaseDates.Count; i++)
             {
                 if ((i + 1) % 8 == 0)
                 {
+                    DateTime checkValidDate = new DateTime();
                     ScrapeDateDetail tempView = new ScrapeDateDetail();
 
-                    tempView.ReleaseDetailDate = DateTime.ParseExact(releaseDates[i], "MMMM dd, yyyy", CultureInfo.InvariantCulture);
+                    //tempView.ReleaseDetailDate = DateTime.ParseExact(releaseDates[i], "MMMM dd, yyyy", CultureInfo.InvariantCulture);
+                    if (DateTime.TryParseExact(releaseDates[i], dateformats, DateTimeFormatInfo.CurrentInfo, DateTimeStyles.None, out checkValidDate))
+                    {
+                        tempView.ReleaseDetailDate = checkValidDate;
+                    }
+                    else
+                    {
+                        tempView.ReleaseDetailDate = DateTime.MinValue;
+                    }
                     tempView.ReleaseDetailPlatoform = releaseDates[i - 4];
                     tempView.ReleaseDetailRegion = releaseDates[i - 2];
 

@@ -19,13 +19,13 @@
 {
     @if (Model != null)
     {
-        <form asp-controller="Search" asp-action="ReleaseDetails" method="post">
+        <form asp-controller="Search" asp-action="AddGame" method="post">
             <div class="table">
                 <div class="thead">
                     <div class="tr">
                         <div class="td">Name</div>
                         <div class="td">Release Date</div>
-                        <div class="td">Keep Date?</div>
+                        @*<div class="td">Keep Date?</div>*@
                         <div class="td">Platform</div>
                         <div class="td"></div>
                     </div>
@@ -37,19 +37,31 @@
                         <div class="tr">
                             <div class="td"> <input type="radio" name="gameid" value="@g.id">@g.Name   </div>
                         <div class="td">
-                            @if (DateTime.TryParseExact(g.Original_release_date, "yyyy-MM-dd hh:mm:ss", DateTimeFormatInfo.CurrentInfo, @DateTimeStyles.None, out thisDay))
+                            @*@if (DateTime.TryParseExact(g.Original_release_date, "yyyy-MM-dd hh:mm:ss", DateTimeFormatInfo.CurrentInfo, @DateTimeStyles.None, out thisDay))
                             {
                                 @thisDay.ToString("MMMM dd, yyyy")
                             }
                             else
                             {
                                 @g.Original_release_date
-                            }
+                            }*@
+                            <select name="date">
+                                <option selected disabled hidden style='display: none' value=''> -- select a date -- </option>
+                                @if (DateTime.TryParseExact(g.Original_release_date, "yyyy-MM-dd hh:mm:ss", DateTimeFormatInfo.CurrentInfo, @DateTimeStyles.None, out thisDay))
+                                {
+                                <option value="@thisDay.ToString("MMMM dd, yyyy")">@thisDay.ToString("MMMM dd, yyyy")</option>
+                                }
+
+                                @foreach (var d in g.Dates)
+                            {
+                                    <option value="@d.ReleaseDetailDate.ToString("MMMM dd, yyyy")">@d.ReleaseDetailDate.ToString("MMMM dd, yyyy") - @d.ReleaseDetailPlatoform - @d.ReleaseDetailRegion</option>
+                                }
+                            </select>
                         </div>
-                        <div class="td">
+                        @*<div class="td">
                             <input type="radio" name="date" value="@g.Original_release_date" />Y 
                             <input type="radio" name="date" value="@g.site_detail_url" />N
-                         </div>
+                         </div>*@
                             <div class="td">
                                 <select name="platformid">
                                     <option selected disabled hidden style='display: none' value=''> -- select an option -- </option>

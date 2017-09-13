@@ -8,11 +8,13 @@
 
 @model GameTracker2.Models.RootObject
 
+<br />
 <form asp-controller="Search" asp-action="Results" method="post">
     <input type="text" name="searchstring">
     <input type="submit" value="Search" />
 </form>
-<p>@ViewBag.Searchstring</p>
+<br />
+@*<p>@ViewBag.Searchstring</p>*@
 @*<p>@ViewBag.Urltest</p>*@
 
 @if (ViewBag.Searchstring != null)
@@ -64,7 +66,7 @@
                          </div>*@
                             <div class="td">
                                 <select name="platformid">
-                                    <option selected disabled hidden style='display: none' value=''> -- select an option -- </option>
+                                    <option selected disabled hidden style='display: none' value=''> -- select a platform -- </option>
                                     @foreach (var p in g.Platforms)
                             {
                                         <option value="@p.ID">@p.Name</option>

@@ -47,9 +47,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" asp-area="" asp-controller="Chart" asp-action="Index" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Charts</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a asp-controller="Chart" asp-action="Index">Chart Home</a></li>
+                            <li><a asp-controller="Chart" asp-action="Index">All Games</a></li>
                             <li><a asp-controller="Chart" asp-action="AllMonths">Monthly Charts</a></li>
+                            <li><a asp-controller="Chart" asp-action="ThisMonth">-- This Month</a></li>
                             <li><a asp-controller="Chart" asp-action="AllYears">Yearly Charts</a></li>
+                            <li><a asp-controller="Chart" asp-action="ThisYear">-- This Year</a></li>
                             <li><a asp-controller="Chart" asp-action="Goty">Games released this year</a></li>
                         </ul>
                     </li>

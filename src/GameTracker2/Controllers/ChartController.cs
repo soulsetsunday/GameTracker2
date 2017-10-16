@@ -116,5 +116,15 @@ namespace GameTracker2.Controllers
             IList<Game> games = context.Games.Where(g => g.User == GetCurrentUserAsync().Result && g.Original_release_date.Year == DateTime.Today.Year).Include(c => c.Platform).Include(i => i.GameImages).OrderByDescending(x => x.DaysPlayed).ToList();
             return View("Index", games);
         }
+
+        public IActionResult ThisMonth()
+        {
+            return RedirectToAction("Monthly", "Chart", new { id = DateTime.Today.ToString("MM-yyyy") });
+        }
+
+        public IActionResult ThisYear()
+        {
+            return RedirectToAction("Yearly", "Chart", new { id = DateTime.Today.ToString("yyyy") });
+        }
     }
 }

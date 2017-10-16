@@ -250,3 +250,5 @@ ModelManifest.xml
 /src/GameTracker2/Properties/PublishProfiles/publish-module.psm1
 /src/GameTracker2/wwwroot/images/bg-paper.jpeg
 /src/GameTracker2/wwwroot/data/apikey.txt
+*.pubxml
+/src/GameTracker2/Properties/PublishProfiles/gametracker-demo - Web Deploy-publish.ps1

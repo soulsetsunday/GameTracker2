@@ -18,6 +18,8 @@ namespace GameTracker2.Models
         public Platform Platform { get; set; }
         public ApplicationUser User { get; set; }
 
+        public int Review { get; set; } = 0;
+
 
         //TODO: display platforms; this needs to be a single platform picked from the view
         public Game()

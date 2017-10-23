@@ -126,5 +126,6 @@ namespace GameTracker2.Controllers
         {
             return RedirectToAction("Yearly", "Chart", new { id = DateTime.Today.ToString("yyyy") });
         }
+
     }
 }

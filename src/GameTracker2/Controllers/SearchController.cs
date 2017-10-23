@@ -88,7 +88,7 @@ namespace GameTracker2.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddGame(int gameid, int platformid, string date)
+        public IActionResult AddGame(int gameid, int platformid, string date, int review = 0)
         {
 
             for (int i = 0; i < searchResults.Results.Count; i++)
@@ -123,6 +123,7 @@ namespace GameTracker2.Controllers
 
                     Game newDBGame = new Game
                     {
+                        Review = review,
                         Name = searchResults.Results[i].Name,
                         //Original_release_date = DateTime.Parse(searchResults.Results[i].Original_release_date),
                         //this should always recieve a date now

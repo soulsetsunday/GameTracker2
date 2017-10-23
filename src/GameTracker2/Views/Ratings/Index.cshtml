@@ -1,0 +1,50 @@
+﻿
+@*
+   Ratings index
+*@
+
+@using System.Globalization;
+
+@model IList<GameTracker2.Models.Game>
+
+@if (Model != null)
+{
+    <form asp-controller="Ratings" asp-action="Index" method="post">
+        <div style="margin:auto;width:40%;border: 3px solid #c7c7c7;text-align:center;">
+            New rating: 
+            <input type="radio" name="review" value="1" />1
+            <input type="radio" name="review" value="2" />2
+            <input type="radio" name="review" value="3" />3
+            <input type="radio" name="review" value="4" />4
+            <input type="radio" name="review" value="5" />5
+        </div>
+        <div class="table">
+            <div class="thead">
+                <div class="tr">
+                    <div class="td">Name</div>
+                    <div class="td">Release Date</div>
+                    <div class="td">Platform</div>
+                    <div class="td">Current Rating</div>
+                </div>
+            </div>
+            @foreach (var g in Model)
+            {
+                <div class="tr">
+                    <div class="td"> <input type="radio" name="gameid" value="@g.ID">@g.Name</div>
+                    <div class="td"> @g.Original_release_date.ToString("MMMM dd, yyyy")</div>
+                    <div class="td">@g.Platform.Name </div>
+                    @if (g.Review == 0)
+                    {
+                        <div class="td">None</div>
+                    }
+                    else
+                    {
+                    <div class="td">@g.Review</div>
+                    }
+
+                </div>
+            }
+        </div>
+        <input type="submit" value="Update Review" />
+</form>
+}

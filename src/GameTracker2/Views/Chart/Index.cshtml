@@ -59,7 +59,13 @@
                     }
                     else
                     {
-                        <td>@Model[i].Review</td>
+                        <td>
+                            @for (var j = 0; j < Model[i].Review; j++)
+                            {
+                                <img src="~/images/star-200.png" alt="" width="20" height="15">
+                            }
+                        </td>
+
                     }
                     <td>@Model[i].MostRecentlyAdded.ToString(dateFormat)</td>
                     </tr>
@@ -78,7 +84,13 @@
                     }
                     else
                     {
-                        <td>@Model[i].Review</td>
+                        <td>
+                            @for (var j = 0; j < Model[i].Review; j++)
+                            {
+                                <img src="~/images/star-200.png" alt="" width="20" height="15">
+                            }
+                        </td>
+
                     }
                     <td>@Model[i].MostRecentlyAdded.ToString(dateFormat)</td>
                     </tr>
@@ -97,7 +109,13 @@
                     }
                     else
                     {
-                        <td>@Model[i].Review</td>
+                        <td>
+                            @for (var j = 0; j < Model[i].Review; j++)
+                            {
+                                <img src="~/images/star-200.png" alt="" width="20" height="15">
+                            }
+                        </td>
+
                     }
                     <td>@Model[i].MostRecentlyAdded.ToString(dateFormat)</td>
                     </tr>
